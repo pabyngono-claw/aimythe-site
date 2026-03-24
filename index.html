@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aimythe — Your business, automated.</title>
+<meta name="description" content="We build AI-powered automation systems that eliminate manual work for agencies and growing businesses. Book a free 15-min audit call.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #09090f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --text: #e2e2e8;
+    --muted: #666;
+    --accent: #6366f1;
+    --accent2: #8b5cf6;
+    --green: #4ade80;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ── Nav ── */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(9,9,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-cta { background: var(--accent); color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: opacity .2s; }
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── Sections ── */
+  section { padding: 100px 24px; max-width: 1000px; margin: 0 auto; }
+
+  /* ── Hero ── */
+  .hero { padding-top: 160px; padding-bottom: 100px; text-align: center; max-width: 780px; margin: 0 auto; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: #1a0d2e; border: 1px solid #2d1f4a; color: #a78bfa; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+  .hero h1 { font-size: clamp(38px, 6vw, 64px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+  .hero h1 span { background: linear-gradient(135deg, #6366f1 0%, #a78bfa 50%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub { font-size: 18px; color: var(--muted); max-width: 560px; margin: 0 auto 36px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; transition: opacity .2s, transform .2s; display: inline-block; }
+  .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; transition: border-color .2s; display: inline-block; }
+  .btn-secondary:hover { border-color: #3a3a5a; }
+  .hero-trust { margin-top: 48px; font-size: 13px; color: #333; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .hero-trust span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── Problem ── */
+  .problem { border-top: 1px solid var(--border); }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 12px; }
+  .section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.2; }
+  .section-sub { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 48px; line-height: 1.7; }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .pain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .pain-icon { font-size: 24px; margin-bottom: 10px; }
+  .pain-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .pain-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── Solution ── */
+  .solution { border-top: 1px solid var(--border); }
+  .solution-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 48px; }
+  .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; position: relative; }
+  .step-num { position: absolute; top: -14px; left: 20px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-size: 12px; font-weight: 800; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; padding-top: 6px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── Services ── */
+  .services { border-top: 1px solid var(--border); }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+  .service-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; transition: border-color .2s; }
+  .service-card:hover { border-color: #3a2a6a; }
+  .service-card.featured { border-color: var(--accent); background: linear-gradient(135deg, #13131c 0%, #1a0d2e 100%); }
+  .service-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: 10px; }
+  .service-tag.featured { color: #a78bfa; }
+  .service-price { font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .service-price-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .service-name { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .service-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .service-features li { font-size: 13px; color: #aaa; display: flex; align-items: flex-start; gap: 8px; }
+  .service-features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+  /* ── CTA ── */
+  .cta-section { border-top: 1px solid var(--border); text-align: center; }
+  .cta-box { background: linear-gradient(135deg, #111118 0%, #1a0d2e 100%); border: 1px solid #2d1f4a; border-radius: 20px; padding: 60px 40px; }
+  .cta-box h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  .cta-box p { font-size: 16px; color: var(--muted); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* ── Footer ── */
+  footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: #333; max-width: 1000px; margin: 0 auto; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    section { padding: 80px 16px; }
+    .hero { padding-top: 120px; }
+    .cta-box { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">aimythe</div>
+  <a href="https://cal.com" class="nav-cta">Book a Free Call</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">⚡ AI Automation Agency</div>
+  <h1>Your business,<br><span>automated.</span></h1>
+  <p class="hero-sub">We build AI-powered workflow systems that eliminate manual work — so your team can focus on what actually matters.</p>
+  <div class="hero-actions">
+    <a href="https://cal.com" class="btn-primary">Book a Free 15-Min Call →</a>
+    <a href="#services" class="btn-secondary">See What We Build</a>
+  </div>
+  <div class="hero-trust">
+    <span>✓ No long contracts</span>
+    <span>✓ Results in weeks, not months</span>
+    <span>✓ Built on n8n + AI</span>
+  </div>
+</div>
+
+<!-- Problem -->
+<section class="problem">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-title">You're running your business<br>on work that should be automated.</h2>
+  <p class="section-sub">Every hour your team spends on manual, repetitive work is an hour not spent on growth. And it adds up fast.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">📊</div>
+      <div class="pain-title">Manual reporting</div>
+      <div class="pain-desc">4 hours a week building reports that a system could generate in 20 minutes.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📥</div>
+      <div class="pain-title">Lead management by hand</div>
+      <div class="pain-desc">Leads routed, followed up, and tracked manually — things fall through the cracks.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🔄</div>
+      <div class="pain-title">Repetitive client ops</div>
+      <div class="pain-desc">Onboarding, status updates, invoicing — all done manually when it could run itself.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🧩</div>
+      <div class="pain-title">Disconnected tools</div>
+      <div class="pain-desc">Your CRM, project management, email, and billing don't talk to each other.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section class="solution">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">We map it, build it,<br>and it runs without you.</h2>
+  <p class="section-sub">Three steps from first call to a fully automated operation.</p>
+  <div class="solution-steps">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-title">Audit your workflows</div>
+      <div class="step-desc">We map every manual process in your business and identify the top 3 automation wins. You'll know exactly what to build — and what it's worth.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-title">Build the system</div>
+      <div class="step-desc">We build custom n8n + AI workflows integrated with your existing tools. Delivered, tested, and documented in 2–4 weeks.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-title">It runs. You grow.</div>
+      <div class="step-desc">The system works in the background 24/7. We monitor, optimise, and expand it as your business grows.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="services">
+  <div class="section-label">Services</div>
+  <h2 class="section-title">Simple, transparent pricing.</h2>
+  <p class="section-sub">No retainers until you're ready. Start with an audit and know exactly what you're getting.</p>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-tag">Start Here</div>
+      <div class="service-price">$500</div>
+      <div class="service-price-sub">One-time</div>
+      <div class="service-name">Automation Audit</div>
+      <div class="service-desc">We map your current workflows, identify the top 3 automation opportunities, and give you a full build plan.</div>
+      <ul class="service-features">
+        <li>Full workflow mapping session</li>
+        <li>Top 3 automation opportunities identified</li>
+        <li>Build plan with time + cost estimate</li>
+        <li>Delivered in 5 business days</li>
+        <li>DIY or hire us — the plan is yours</li>
+      </ul>
+    </div>
+
+    <div class="service-card featured">
+      <div class="service-tag featured">Most Popular</div>
+      <div class="service-price">$2,500+</div>
+      <div class="service-price-sub">Per project</div>
+      <div class="service-name">Custom Automation Build</div>
+      <div class="service-desc">We build your automation system end-to-end — fully integrated with your existing tools and handed over with documentation.</div>
+      <ul class="service-features">
+        <li>Custom n8n + AI workflow build</li>
+        <li>Integration with your existing stack</li>
+        <li>Full testing and QA</li>
+        <li>Documentation and handover</li>
+        <li>30-day post-launch support</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-tag">Scale With Us</div>
+      <div class="service-price">$1,500<span style="font-size:16px;font-weight:500">/mo</span></div>
+      <div class="service-price-sub">Monthly retainer</div>
+      <div class="service-name">Ongoing Automation Partner</div>
+      <div class="service-desc">We run and evolve your automation stack as your business grows. New workflows, monitoring, and optimisation every month.</div>
+      <ul class="service-features">
+        <li>Monthly workflow additions</li>
+        <li>Performance monitoring</li>
+        <li>Continuous optimisation</li>
+        <li>Priority support</li>
+        <li>Quarterly strategy review</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to stop doing things manually?</h2>
+    <p>Book a free 15-minute call. We'll tell you upfront if automation can help — and exactly what it would look like.</p>
+    <a href="https://cal.com" class="btn-primary" style="font-size:16px;padding:16px 36px">Book Your Free Call →</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Aimythe · AI Automation Agency · <a href="mailto:hello@aimythe.com" style="color:#555">hello@aimythe.com</a>
+</footer>
+
+</body>
+</html>
