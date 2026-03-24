@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aimythe — L'automatisation IA pour les entreprises en croissance</title>
+<meta name="description" content="Nous concevons des systèmes d'automatisation IA qui éliminent les tâches manuelles pour les agences et les PME. Réservez un appel découverte à 49 $.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --indigo: #4f46e5;
+  --indigo-light: #6366f1;
+  --violet: #7c3aed;
+  --text: #0f172a;
+  --muted: #64748b;
+  --light: #f8fafc;
+  --border: #e2e8f0;
+  --white: #ffffff;
+  --green: #10b981;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%;
+  height: 68px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: #fff; letter-spacing: -1px;
+}
+.logo-text { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.logo-text span { color: var(--indigo); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.lang-toggle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  background: var(--light); border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 8px;
+  transition: border-color .2s;
+}
+.lang-toggle:hover { border-color: #c7d2fe; color: var(--indigo); }
+.lang-toggle .active { color: var(--indigo); font-weight: 700; }
+.nav-cta {
+  background: var(--indigo); color: #fff !important;
+  padding: 10px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 4px 14px rgba(79,70,229,0.3);
+}
+.nav-cta:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,0.4); }
+@media (max-width: 640px) { .nav-links { display: none; } }
+
+/* ── HERO ── */
+.hero {
+  padding: 160px 5% 100px;
+  background: linear-gradient(160deg, #fafbff 0%, #f0f0ff 40%, #faf5ff 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; right: -100px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 760px; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid #e0e7ff;
+  color: var(--indigo); font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.1);
+}
+.hero-badge .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.7;transform:scale(1.3)} }
+.hero h1 {
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -2px; margin-bottom: 22px; color: var(--text);
+}
+.hero h1 .gradient {
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 60%, #a855f7 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  font-size: 19px; color: var(--muted); max-width: 560px;
+  margin-bottom: 40px; line-height: 1.7; font-weight: 400;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 52px; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 100%);
+  color: #fff; padding: 16px 30px; border-radius: 12px;
+  font-size: 16px; font-weight: 700;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(79,70,229,0.45); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--text);
+  border: 1.5px solid var(--border); padding: 15px 28px; border-radius: 12px;
+  font-size: 15px; font-weight: 600;
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.btn-secondary:hover { border-color: #c7d2fe; box-shadow: 0 4px 16px rgba(79,70,229,0.1); }
+.hero-stats {
+  display: flex; gap: 40px; flex-wrap: wrap;
+  padding-top: 40px; border-top: 1px solid rgba(79,70,229,0.12);
+}
+.stat-item { display: flex; flex-direction: column; gap: 2px; }
+.stat-num { font-size: 26px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
+.stat-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+/* ── PROOF BAR ── */
+.proof-bar {
+  background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 22px 5%; display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.proof-label { font-size: 13px; color: #94a3b8; font-weight: 500; white-space: nowrap; }
+.proof-tools { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.proof-tool { font-size: 13px; font-weight: 600; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+
+/* ── SECTIONS ── */
+section { padding: 96px 5%; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--indigo); margin-bottom: 14px;
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800; letter-spacing: -1.5px; line-height: 1.15;
+  color: var(--text); margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px; color: var(--muted); max-width: 580px;
+  line-height: 1.75; margin-bottom: 56px;
+}
+.container { max-width: 1080px; margin: 0 auto; }
+
+/* ── PROBLEM ── */
+.problem { background: var(--white); }
+.pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+.pain-card {
+  background: var(--light); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  transition: box-shadow .2s, transform .2s;
+}
+.pain-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.pain-emoji { font-size: 28px; margin-bottom: 12px; }
+.pain-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.pain-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+/* ── HOW ── */
+.how { background: linear-gradient(160deg, #fafbff 0%, #f5f3ff 100%); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.step {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 32px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: box-shadow .2s, transform .2s;
+}
+.step:hover { box-shadow: 0 8px 40px rgba(79,70,229,0.12); transform: translateY(-3px); }
+.step-num {
+  width: 44px; height: 44px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--indigo), var(--violet));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: #fff;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+}
+.step-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ── SERVICES ── */
+.services { background: var(--white); }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.service-card {
+  background: var(--light); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 32px;
+  display: flex; flex-direction: column;
+  transition: box-shadow .2s, transform .2s;
+}
+.service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.service-card.featured {
+  background: linear-gradient(160deg, #4f46e5 0%, #7c3aed 100%);
+  border-color: transparent; color: #fff;
+  box-shadow: 0 16px 48px rgba(79,70,229,0.35);
+}
+.service-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--indigo); margin-bottom: 20px; }
+.service-card.featured .service-tag { color: rgba(255,255,255,0.7); }
+.service-price { font-size: 44px; font-weight: 900; letter-spacing: -2px; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.service-card.featured .service-price { color: #fff; }
+.service-per { font-size: 14px; color: var(--muted); margin-bottom: 20px; font-weight: 500; }
+.service-card.featured .service-per { color: rgba(255,255,255,0.65); }
+.service-name { font-size: 19px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 10px; color: var(--text); }
+.service-card.featured .service-name { color: #fff; }
+.service-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 24px; flex: 1; }
+.service-card.featured .service-desc { color: rgba(255,255,255,0.75); }
+.service-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.service-features li { font-size: 14px; color: var(--muted); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.service-features li .check { color: var(--green); font-weight: 800; flex-shrink: 0; }
+.service-card.featured .service-features li { color: rgba(255,255,255,0.8); }
+.service-card.featured .service-features li .check { color: #a7f3d0; }
+.service-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--indigo); color: #fff;
+  padding: 13px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  transition: background .2s, transform .15s;
+}
+.service-btn:hover { background: #4338ca; transform: translateY(-1px); }
+.service-card.featured .service-btn {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.service-card.featured .service-btn:hover { background: rgba(255,255,255,0.3); }
+
+/* ── TESTIMONIALS ── */
+.proof { background: var(--light); }
+.proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.proof-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.proof-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+.proof-author { display: flex; align-items: center; gap: 12px; }
+.proof-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--indigo), var(--violet));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 14px;
+}
+.proof-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.proof-role { font-size: 12px; color: var(--muted); }
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 100%);
+  text-align: center; padding: 96px 5%;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; top: -50%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-section::after {
+  content: ''; position: absolute; bottom: -30%; right: 5%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-section .container { position: relative; z-index: 1; }
+.cta-section h2 { font-size: clamp(28px,4vw,46px); font-weight: 900; letter-spacing: -1.5px; color: #fff; margin-bottom: 14px; }
+.cta-section p { font-size: 17px; color: rgba(255,255,255,0.75); margin-bottom: 36px; max-width: 540px; margin-left:auto; margin-right:auto; line-height: 1.7; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--indigo);
+  padding: 16px 34px; border-radius: 12px;
+  font-size: 16px; font-weight: 800;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+.cta-note { margin-top: 18px; font-size: 13px; color: rgba(255,255,255,0.55); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--text); color: #94a3b8;
+  padding: 48px 5%; display: flex;
+  align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; }
+.footer-logo-mark {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--indigo), var(--violet));
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 900; font-size: 13px;
+}
+.footer-logo-text { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -.5px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; font-weight: 500; transition: color .2s; }
+.footer-links a:hover { color: #fff; }
+.footer-copy { font-size: 12px; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-mark">ai</div>
+    <div class="logo-text">aim<span>ythe</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#comment">Comment ça marche</a>
+    <a href="#services">Services</a>
+    <a href="mailto:hello@aimythe.com">Contact</a>
+    <a href="/" class="lang-toggle">🌐 <span>EN</span> · <span class="active">FR</span></a>
+    <a href="https://cal.com/floyd-aimythe/discovery" class="nav-cta">Réserver un appel — 49 $</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Nouveaux clients acceptés pour avril 2026
+      </div>
+      <h1>Arrêtez de gérer<br>votre entreprise <span class="gradient">à la main.</span></h1>
+      <p class="hero-sub">Nous concevons des systèmes d'automatisation IA qui éliminent les tâches répétitives — pour que votre équipe se concentre sur ce qui fait vraiment croître l'entreprise.</p>
+      <div class="hero-actions">
+        <a href="https://cal.com/floyd-aimythe/discovery" class="btn-primary">
+          Réserver un appel découverte — 49 $
+          <span>→</span>
+        </a>
+        <a href="#services" class="btn-secondary">
+          Voir ce que nous construisons
+          <span>↓</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">8–12h</span>
+          <span class="stat-label">Récupérées par semaine, par client</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">2–4 sem.</span>
+          <span class="stat-label">Délai moyen pour la première automatisation</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">49 $</span>
+          <span class="stat-label">Appel découverte, déduit de l'engagement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <span class="proof-label">Construit avec</span>
+  <div class="proof-tools">
+    <span class="proof-tool">⚡ n8n</span>
+    <span class="proof-tool">🤖 OpenAI / Claude</span>
+    <span class="proof-tool">🔗 Zapier</span>
+    <span class="proof-tool">📊 Airtable</span>
+    <span class="proof-tool">🔧 Make</span>
+    <span class="proof-tool">📬 HubSpot</span>
+    <span class="proof-tool">+ tous vos outils</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">⚠ Le Problème</div>
+    <h2 class="section-title">Vous perdez des heures chaque semaine<br>sur des tâches qu'un système pourrait gérer.</h2>
+    <p class="section-sub">La plupart des entreprises en croissance fonctionnent avec des processus manuels. Ça tient — jusqu'au jour où ça ne tient plus.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-emoji">📊</div>
+        <div class="pain-title">Reporting manuel</div>
+        <div class="pain-desc">4 heures à construire le même rapport chaque semaine. Un système pourrait le générer en 2 minutes.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">📥</div>
+        <div class="pain-title">Leads gérés à la main</div>
+        <div class="pain-desc">Tri, relance et suivi manuels. Des opportunités passent à travers les mailles chaque jour.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">🔄</div>
+        <div class="pain-title">Opérations client répétitives</div>
+        <div class="pain-desc">Onboarding, mises à jour, facturation — tout fait à la main alors que ça pourrait tourner en automatique.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">🧩</div>
+        <div class="pain-title">Outils déconnectés</div>
+        <div class="pain-desc">Votre CRM, gestion de projet, facturation et email ne se parlent pas. Les données sont partout.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="comment" class="how">
+  <div class="container">
+    <div class="section-label">✦ Comment ça marche</div>
+    <h2 class="section-title">Du premier appel au système<br>opérationnel en 3 étapes.</h2>
+    <p class="section-sub">Pas de longs projets, pas de jargon technique. Vous verrez des résultats en quelques semaines.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Audit de vos processus</div>
+        <div class="step-desc">Nous cartographions chaque processus manuel de votre entreprise et identifions les 3 gains d'automatisation les plus importants. Vous saurez exactement quoi construire — et ce que ça vaut en heures récupérées.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Nous construisons le système</div>
+        <div class="step-desc">Workflows n8n + IA sur mesure, entièrement intégrés à vos outils existants. Livré, testé et documenté en 2 à 4 semaines. Sans perturbation de vos opérations actuelles.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Ça tourne. Vous grandissez.</div>
+        <div class="step-desc">Le système fonctionne en arrière-plan 24h/24, 7j/7. Nous le surveillons, l'optimisons et l'étendons à mesure que votre entreprise grandit — pour un ROI qui se compound dans le temps.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+  <div class="container">
+    <div class="section-label">◈ Services</div>
+    <h2 class="section-title">Des tarifs simples et transparents.</h2>
+    <p class="section-sub">Pas d'abonnement avant que vous soyez prêt. Commencez par un audit et sachez exactement ce que vous obtenez avant de vous engager.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-tag">Par ici pour commencer</div>
+        <div class="service-price">49 $</div>
+        <div class="service-per">Appel découverte · déduit de tout engagement</div>
+        <div class="service-name">Découverte Automatisation</div>
+        <div class="service-desc">Un appel de 15 minutes pour identifier votre plus grand frein opérationnel et vous dire exactement ce que l'automatisation pourrait faire — et ce que ça coûterait.</div>
+        <ul class="service-features">
+          <li><span class="check">✓</span> Session ciblée de 15 minutes</li>
+          <li><span class="check">✓</span> Principal frein opérationnel identifié</li>
+          <li><span class="check">✓</span> Opportunité d'automatisation définie</li>
+          <li><span class="check">✓</span> 49 $ déduits de l'audit ou du projet</li>
+        </ul>
+        <a href="https://cal.com/floyd-aimythe/discovery" class="service-btn">Réserver un appel découverte →</a>
+      </div>
+
+      <div class="service-card featured">
+        <div class="service-tag">Le plus populaire</div>
+        <div class="service-price">500 $</div>
+        <div class="service-per">Unique · résultats sous 5 jours ouvrés</div>
+        <div class="service-name">Audit Automatisation</div>
+        <div class="service-desc">Nous analysons l'ensemble de votre organisation, identifions les 3 meilleures opportunités d'automatisation et livrons un plan complet avec estimations de temps et de coûts. Les 49 $ de découverte sont déduits.</div>
+        <ul class="service-features">
+          <li><span class="check">✓</span> Cartographie complète des processus</li>
+          <li><span class="check">✓</span> Top 3 des gains identifiés</li>
+          <li><span class="check">✓</span> Plan de construction avec ROI estimé</li>
+          <li><span class="check">✓</span> Livré sous 5 jours ouvrés</li>
+          <li><span class="check">✓</span> DIY ou faites-le faire — le plan est à vous</li>
+        </ul>
+        <a href="https://cal.com/floyd-aimythe/audit" class="service-btn">Réserver un audit →</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-tag">Grandir avec nous</div>
+        <div class="service-price">1 500 $<span style="font-size:18px;font-weight:500">/mois</span></div>
+        <div class="service-per">Abonnement mensuel · sans engagement</div>
+        <div class="service-name">Partenaire Automatisation</div>
+        <div class="service-desc">Nous faisons évoluer votre système d'automatisation chaque mois. Nouveaux workflows, surveillance et optimisation continue — un système qui s'améliore au fil de votre croissance.</div>
+        <ul class="service-features">
+          <li><span class="check">✓</span> Nouveaux workflows chaque mois</li>
+          <li><span class="check">✓</span> Surveillance des performances</li>
+          <li><span class="check">✓</span> Optimisation continue</li>
+          <li><span class="check">✓</span> Support prioritaire</li>
+          <li><span class="check">✓</span> Revue stratégique trimestrielle</li>
+        </ul>
+        <a href="https://cal.com/floyd-aimythe/discovery" class="service-btn">Commencer par la découverte →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="section-label">★ Ce que disent nos clients</div>
+    <h2 class="section-title">Conçu pour les entreprises qui en ont<br>fini avec le travail manuel.</h2>
+    <p class="section-sub">Les premiers résultats de clients qui ont remplacé leurs processus manuels par des systèmes automatisés.</p>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-text">« On passait 4 heures chaque lundi à construire notre rapport hebdomadaire. Maintenant il arrive directement dans notre boîte mail à 8h. C'est une demi-journée récupérée, chaque semaine. »</div>
+        <div class="proof-author">
+          <div class="proof-avatar">SM</div>
+          <div><div class="proof-name">Sarah M.</div><div class="proof-role">Fondatrice, Agence de marketing digital</div></div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-text">« L'automatisation du routage des leads s'est remboursée dès la première semaine. Plus aucun lead perdu parce que quelqu'un a oublié de faire un suivi. »</div>
+        <div class="proof-author">
+          <div class="proof-avatar">JR</div>
+          <div><div class="proof-name">James R.</div><div class="proof-role">Directeur des opérations, SaaS</div></div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-text">« J'étais sceptique sur l'IA pour mon activité. L'audit m'a montré exactement trois points de départ concrets et le ROI du premier a été immédiat. »</div>
+        <div class="proof-author">
+          <div class="proof-avatar">LP</div>
+          <div><div class="proof-name">Laura P.</div><div class="proof-role">PDG, Marque e-commerce</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Prêt à récupérer des heures<br>chaque semaine ?</h2>
+    <p>Réservez un appel découverte de 15 minutes. Nous identifions votre meilleure opportunité d'automatisation et vous disons exactement ce qu'il faudrait pour la construire. 49 $, déduits de tout engagement.</p>
+    <a href="https://cal.com/floyd-aimythe/discovery" class="btn-white">
+      Réserver votre appel découverte — 49 $ →
+    </a>
+    <div class="cta-note">Aucun engagement. Pas de discours commercial. Juste une réponse claire sur ce que l'automatisation peut faire pour vous.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-mark">ai</div>
+    <div class="footer-logo-text">aimythe</div>
+  </div>
+  <div class="footer-links">
+    <a href="#comment">Comment ça marche</a>
+    <a href="#services">Services</a>
+    <a href="https://cal.com/floyd-aimythe/discovery">Réserver un appel</a>
+    <a href="mailto:hello@aimythe.com">hello@aimythe.com</a>
+  </div>
+  <div class="footer-copy">© 2026 Aimythe · Agence d'automatisation IA</div>
+</footer>
+
+</body>
+</html>
