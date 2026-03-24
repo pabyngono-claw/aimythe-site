@@ -56,6 +56,9 @@ nav {
   transition: background .2s, transform .15s, box-shadow .2s;
   box-shadow: 0 4px 14px rgba(79,70,229,0.3);
 }
+.lang-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--light); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; transition: border-color .2s; }
+.lang-toggle:hover { border-color: #c7d2fe; color: var(--indigo); }
+.lang-toggle .active { color: var(--indigo); font-weight: 700; }
 .nav-cta:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,0.4); }
 @media (max-width: 640px) { .nav-links { display: none; } }
 
@@ -325,6 +328,7 @@ footer {
     <a href="#how">How it works</a>
     <a href="#services">Services</a>
     <a href="mailto:hello@aimythe.com">Contact</a>
+    <a href="/fr/" class="lang-toggle">🌐 <span class="active">EN</span> · <span>FR</span></a>
     <a href="https://cal.com/floyd-aimythe/discovery" class="nav-cta">Book a Call — $49</a>
   </div>
 </nav>
