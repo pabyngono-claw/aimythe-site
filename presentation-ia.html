@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'IA au service de votre entreprise — Aimythe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --indigo: #4f46e5;
+  --violet: #7c3aed;
+  --blue: #3b82f6;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --text: #0f172a;
+  --muted: #64748b;
+  --white: #ffffff;
+  --light: #f8fafc;
+}
+html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: #000; -webkit-font-smoothing: antialiased; }
+
+/* ── DECK CONTAINER ── */
+#deck { width: 100vw; height: 100vh; position: relative; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 60px 8%;
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease, transform .5s ease;
+  transform: translateY(30px);
+  text-align: center;
+  overflow: hidden;
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-30px); }
+
+/* ── SLIDE THEMES ── */
+.theme-dark { background: #06060f; color: #fff; }
+.theme-gradient { background: linear-gradient(135deg, #0d0d1a 0%, #1a0d2e 50%, #0d1a2e 100%); color: #fff; }
+.theme-indigo { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #fff; }
+.theme-light { background: linear-gradient(160deg, #fafbff 0%, #f0f0ff 100%); color: var(--text); }
+.theme-dark-card { background: #09090f; color: #fff; }
+
+/* ── NAVIGATION ── */
+#nav {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 1000; display: flex; align-items: center; gap: 16px;
+  background: rgba(255,255,255,0.08); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 12px 24px; border-radius: 100px;
+}
+.nav-btn {
+  background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+  color: #fff; font-size: 18px; width: 38px; height: 38px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.2); }
+#progress { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); min-width: 48px; text-align: center; }
+.dot-nav { display: flex; gap: 6px; align-items: center; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all .3s; cursor: pointer; }
+.dot.on { background: #fff; width: 20px; border-radius: 3px; }
+
+/* ── LOGO WATERMARK ── */
+#watermark {
+  position: fixed; top: 24px; right: 32px; z-index: 1000;
+  display: flex; align-items: center; gap: 8px;
+  opacity: .5;
+}
+.wm-mark { width: 26px; height: 26px; background: linear-gradient(135deg, var(--indigo), var(--violet)); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 11px; }
+.wm-text { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: -.3px; }
+
+/* ── COMMON ELEMENTS ── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+  color: #a78bfa; margin-bottom: 20px;
+  background: rgba(167,139,250,0.1); padding: 6px 14px; border-radius: 100px;
+  border: 1px solid rgba(167,139,250,0.2);
+}
+.eyebrow.green { color: #34d399; background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.2); }
+.eyebrow.amber { color: #fbbf24; background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.2); }
+.eyebrow.white { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+h1.hero {
+  font-size: clamp(40px, 6vw, 76px); font-weight: 900; line-height: 1.05;
+  letter-spacing: -3px; margin-bottom: 20px;
+}
+h1.hero .g { background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+h2.title { font-size: clamp(30px, 4vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -2px; margin-bottom: 16px; }
+h2.title .g { background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sub { font-size: clamp(15px, 2vw, 19px); color: rgba(255,255,255,0.6); max-width: 640px; line-height: 1.7; }
+.sub.dark { color: var(--muted); }
+.divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--indigo), var(--violet)); border-radius: 2px; margin: 24px auto; }
+
+/* ── STAT CARDS ── */
+.stats-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
+.stat-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 28px 32px; min-width: 160px;
+  backdrop-filter: blur(10px);
+}
+.stat-card .num { font-size: clamp(36px,5vw,56px); font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+.stat-card .num.indigo { background: linear-gradient(135deg, #818cf8, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card .num.green { background: linear-gradient(135deg, #34d399, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card .num.amber { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card .num.blue { background: linear-gradient(135deg, #60a5fa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card .lbl { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; line-height: 1.4; }
+
+/* ── USE CASE CARDS ── */
+.uc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; width: 100%; max-width: 960px; margin-top: 32px; }
+.uc-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 22px; text-align: left;
+  transition: transform .2s, border-color .2s;
+}
+.uc-card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.3); }
+.uc-icon { font-size: 32px; margin-bottom: 12px; }
+.uc-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.uc-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.uc-save { margin-top: 10px; font-size: 12px; font-weight: 700; color: #34d399; }
+
+/* ── BEFORE/AFTER ── */
+.ba-wrap { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; width: 100%; max-width: 800px; margin-top: 32px; }
+.ba-card { border-radius: 16px; padding: 24px; text-align: left; }
+.ba-card.before { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+.ba-card.after { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+.ba-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.ba-label.red { color: #f87171; }
+.ba-label.green { color: #34d399; }
+.ba-item { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+.ba-item .ic { flex-shrink: 0; }
+.ba-arrow { font-size: 32px; color: rgba(255,255,255,0.3); }
+
+/* ── QUOTE ── */
+.quote-box {
+  max-width: 720px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+  padding: 40px; margin-top: 24px; position: relative;
+}
+.quote-mark { font-size: 80px; color: rgba(167,139,250,0.2); font-family: Georgia, serif; line-height: .8; margin-bottom: 8px; }
+.quote-text { font-size: clamp(18px,2.5vw,26px); font-weight: 600; color: #fff; line-height: 1.5; letter-spacing: -.5px; margin-bottom: 20px; }
+.quote-attr { font-size: 14px; color: rgba(255,255,255,0.4); }
+
+/* ── PROCESS STEPS ── */
+.process { display: flex; gap: 0; align-items: flex-start; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+.proc-step { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; min-width: 160px; max-width: 220px; padding: 0 12px; position: relative; }
+.proc-step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 20px; font-size: 20px; color: rgba(255,255,255,0.2); }
+.proc-num { width: 48px; height: 48px; background: linear-gradient(135deg, var(--indigo), var(--violet)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(79,70,229,0.4); }
+.proc-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.proc-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+/* ── OFFER BOX ── */
+.offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; width: 100%; max-width: 800px; margin-top: 32px; }
+.offer-card {
+  border-radius: 20px; padding: 28px; text-align: left;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+}
+.offer-card.highlight { background: linear-gradient(135deg, rgba(79,70,229,0.3), rgba(124,58,237,0.3)); border-color: rgba(167,139,250,0.4); }
+.offer-price { font-size: 40px; font-weight: 900; letter-spacing: -2px; color: #fff; line-height: 1; margin-bottom: 4px; }
+.offer-name { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 8px; }
+.offer-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ── CTA SLIDE ── */
+.cta-big { font-size: clamp(38px,6vw,72px); font-weight: 900; letter-spacing: -3px; line-height: 1.05; color: #fff; margin-bottom: 16px; }
+.cta-big .g { background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fff; color: var(--indigo);
+  padding: 18px 40px; border-radius: 14px;
+  font-size: 17px; font-weight: 800;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  margin-top: 32px; text-decoration: none;
+  transition: transform .2s;
+}
+.cta-btn:hover { transform: translateY(-3px); }
+.cta-sub { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 14px; }
+
+/* ── TOOL PILLS ── */
+.tools { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+.tool-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); }
+
+/* ── HIGHLIGHT LIST ── */
+.hl-list { list-style: none; max-width: 640px; margin-top: 32px; text-align: left; }
+.hl-list li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: clamp(14px,1.8vw,17px); color: rgba(255,255,255,0.85); line-height: 1.5; }
+.hl-list li .icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── SCENARIO ── */
+.scenario { max-width: 760px; width: 100%; margin-top: 32px; }
+.scenario-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #a78bfa; margin-bottom: 16px; }
+.scenario-story { font-size: clamp(16px, 2vw, 21px); color: rgba(255,255,255,0.85); line-height: 1.7; }
+.scenario-result { margin-top: 20px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+.scenario-result-text { font-size: 15px; font-weight: 600; color: #34d399; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes glow { 0%,100% { opacity:.4; } 50% { opacity:.7; } }
+.slide.active > * { animation: fadeUp .5s ease both; }
+.slide.active > *:nth-child(2) { animation-delay: .1s; }
+.slide.active > *:nth-child(3) { animation-delay: .2s; }
+.slide.active > *:nth-child(4) { animation-delay: .3s; }
+.slide.active > *:nth-child(5) { animation-delay: .4s; }
+
+/* ── DECO ── */
+.deco-orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  animation: glow 4s ease infinite;
+}
+.orb1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(79,70,229,0.15) 0%, transparent 70%); top: -100px; right: -100px; }
+.orb2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%); bottom: -50px; left: -50px; }
+.orb3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+/* ── BIG EMOJI SLIDE ── */
+.big-emoji { font-size: 80px; margin-bottom: 16px; animation: float 3s ease infinite; }
+</style>
+</head>
+<body>
+
+<div id="watermark">
+  <div class="wm-mark">ai</div>
+  <div class="wm-text">aimythe</div>
+</div>
+
+<div id="deck">
+
+  <!-- ─── SLIDE 1 — TITRE ─── -->
+  <div class="slide theme-gradient active" data-slide="0">
+    <div class="deco-orb orb1"></div>
+    <div class="deco-orb orb2"></div>
+    <div class="eyebrow">✦ Aimythe · Présentation</div>
+    <h1 class="hero">Votre entreprise peut<br><span class="g">travailler sans vous.</span></h1>
+    <p class="sub">Découvrez comment l'intelligence artificielle transforme les entreprises ordinaires en machines à croissance — sans recruter, sans complexité, sans vous ruiner.</p>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:8px">Appuyez sur → pour avancer</p>
+  </div>
+
+  <!-- ─── SLIDE 2 — ACCROCHE ─── -->
+  <div class="slide theme-dark" data-slide="1">
+    <div class="deco-orb orb3"></div>
+    <div class="big-emoji">⏰</div>
+    <h2 class="title">Combien d'heures votre équipe<br>perd-elle chaque semaine<br>sur des <span class="g">tâches répétitives ?</span></h2>
+    <div class="stats-row" style="margin-top:32px">
+      <div class="stat-card"><div class="num indigo">4h</div><div class="lbl">par semaine sur<br>les reportings manuels</div></div>
+      <div class="stat-card"><div class="num amber">3h</div><div class="lbl">sur le suivi<br>et les relances clients</div></div>
+      <div class="stat-card"><div class="num green">5h</div><div class="lbl">sur la saisie de données<br>entre outils</div></div>
+      <div class="stat-card"><div class="num blue">2h</div><div class="lbl">sur l'onboarding<br>de nouveaux clients</div></div>
+    </div>
+    <p style="margin-top:28px;font-size:15px;color:rgba(255,255,255,0.35)">Soit jusqu'à <strong style="color:#a78bfa">14 heures par semaine</strong> — sur des choses qu'un système pourrait faire à votre place.</p>
+  </div>
+
+  <!-- ─── SLIDE 3 — QU'EST-CE QUE L'IA ? ─── -->
+  <div class="slide theme-gradient" data-slide="2">
+    <div class="deco-orb orb1"></div>
+    <div class="eyebrow">Démystifier l'IA</div>
+    <h2 class="title">L'IA, c'est quoi <span class="g">concrètement ?</span></h2>
+    <p class="sub">Oubliez les robots et la science-fiction. L'IA pour votre entreprise, c'est simple.</p>
+    <ul class="hl-list">
+      <li><span class="icon">🤖</span><span>Un <strong style="color:#fff">assistant numérique</strong> qui apprend vos processus et les exécute automatiquement — sans pause, sans erreur, 24h/24.</span></li>
+      <li><span class="icon">🔗</span><span>Un <strong style="color:#fff">connecteur intelligent</strong> qui fait parler vos outils entre eux — votre CRM, votre email, votre facturation, vos fichiers.</span></li>
+      <li><span class="icon">📊</span><span>Un <strong style="color:#fff">analyste invisible</strong> qui surveille vos données et vous envoie les bons chiffres au bon moment.</span></li>
+      <li><span class="icon">💬</span><span>Un <strong style="color:#fff">collègue qui ne dort jamais</strong> — qui répond aux clients, trie les demandes, et escalade uniquement ce qui mérite votre attention.</span></li>
+    </ul>
+  </div>
+
+  <!-- ─── SLIDE 4 — STATISTIQUES ─── -->
+  <div class="slide theme-dark" data-slide="3">
+    <div class="deco-orb orb3"></div>
+    <div class="eyebrow amber">📊 Les chiffres qui font réfléchir</div>
+    <h2 class="title">L'automatisation IA n'est<br><span class="g">plus une option.</span></h2>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="num indigo">80%</div>
+        <div class="lbl">des tâches répétitives en entreprise peuvent être automatisées <em style="opacity:.6">(McKinsey, 2024)</em></div>
+      </div>
+      <div class="stat-card">
+        <div class="num green">3,8×</div>
+        <div class="lbl">de croissance en plus pour les PME qui adoptent l'IA vs celles qui ne le font pas <em style="opacity:.6">(Salesforce, 2024)</em></div>
+      </div>
+      <div class="stat-card">
+        <div class="num amber">68%</div>
+        <div class="lbl">des dirigeants de PME disent manquer de temps pour les tâches stratégiques <em style="opacity:.6">(Deloitte, 2024)</em></div>
+      </div>
+      <div class="stat-card">
+        <div class="num blue">6–12 sem.</div>
+        <div class="lbl">délai moyen pour qu'une automatisation se rentabilise entièrement</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 5 — CAS CONCRET 1 : REPORTING ─── -->
+  <div class="slide theme-gradient" data-slide="4">
+    <div class="deco-orb orb2"></div>
+    <div class="eyebrow green">Cas concret #1</div>
+    <h2 class="title">Le rapport hebdomadaire<br><span class="g">qui se génère tout seul.</span></h2>
+    <div class="ba-wrap">
+      <div class="ba-card before">
+        <div class="ba-label red">❌ Avant</div>
+        <div class="ba-item"><span class="ic">⏳</span><span>4 heures chaque lundi à collecter les données manuellement</span></div>
+        <div class="ba-item"><span class="ic">📋</span><span>Copier-coller entre Google Sheets, CRM et email</span></div>
+        <div class="ba-item"><span class="ic">😤</span><span>Erreurs fréquentes, retards, frustration de l'équipe</span></div>
+        <div class="ba-item"><span class="ic">💸</span><span>~200 € de temps salarié gaspillé chaque semaine</span></div>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-card after">
+        <div class="ba-label green">✅ Après</div>
+        <div class="ba-item"><span class="ic">⚡</span><span>Le rapport arrive automatiquement dans la boîte mail à 8h le lundi</span></div>
+        <div class="ba-item"><span class="ic">🎯</span><span>Données consolidées depuis tous les outils, sans intervention</span></div>
+        <div class="ba-item"><span class="ic">✅</span><span>Zéro erreur, toujours à l'heure, toujours complet</span></div>
+        <div class="ba-item"><span class="ic">🚀</span><span>L'équipe commence le lundi sur les sujets qui comptent</span></div>
+      </div>
+    </div>
+    <div class="scenario-result" style="max-width:760px;margin-top:16px">
+      <span style="font-size:20px">💰</span>
+      <span class="scenario-result-text">Économie : ~10 400 € par an · Rentabilisé en moins de 6 semaines</span>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 6 — CAS CONCRET 2 : LEADS ─── -->
+  <div class="slide theme-dark" data-slide="5">
+    <div class="deco-orb orb1"></div>
+    <div class="eyebrow">Cas concret #2</div>
+    <h2 class="title">Ne perdez plus jamais<br><span class="g">un lead par oubli.</span></h2>
+    <div class="scenario">
+      <div class="scenario-name">Situation réelle — Agence marketing, 15 personnes</div>
+      <div class="scenario-story">
+        Chaque semaine, des dizaines de prospects remplissent un formulaire en ligne. Un commercial doit les trier, les affecter à un commercial, envoyer un email de bienvenue, créer une fiche dans le CRM, et planifier une relance.
+        <br><br>
+        <strong style="color:#f87171">Résultat avant IA :</strong> 30 à 40% des leads tombaient dans les oubliettes. Le temps de réponse moyen était de 48 heures.
+      </div>
+      <div class="scenario-result">
+        <span style="font-size:20px">🤖</span>
+        <span class="scenario-result-text">Avec l'automatisation : réponse en 3 minutes · 0 lead perdu · +28% de taux de conversion · économie de 8h/semaine</span>
+      </div>
+    </div>
+    <div class="divider" style="margin-top:24px"></div>
+    <p class="sub" style="font-size:14px;margin-top:16px">Le système détecte le nouveau lead → envoie l'email de bienvenue → crée la fiche CRM → affecte le commercial → programme la relance. <strong style="color:#a78bfa">Automatiquement.</strong></p>
+  </div>
+
+  <!-- ─── SLIDE 7 — CAS CONCRET 3 : SERVICE CLIENT ─── -->
+  <div class="slide theme-gradient" data-slide="6">
+    <div class="deco-orb orb3"></div>
+    <div class="eyebrow amber">Cas concret #3</div>
+    <h2 class="title">Un service client disponible<br><span class="g">24h/24 · 7j/7.</span></h2>
+    <div class="ba-wrap" style="max-width:760px">
+      <div class="ba-card before">
+        <div class="ba-label red">❌ Avant</div>
+        <div class="ba-item"><span class="ic">📧</span><span>60 emails clients par jour à traiter manuellement</span></div>
+        <div class="ba-item"><span class="ic">😫</span><span>Équipe débordée · réponses tardives</span></div>
+        <div class="ba-item"><span class="ic">🌙</span><span>Aucune réponse le soir, le week-end, les jours fériés</span></div>
+        <div class="ba-item"><span class="ic">📉</span><span>Clients insatisfaits · avis négatifs</span></div>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-card after">
+        <div class="ba-label green">✅ Après</div>
+        <div class="ba-item"><span class="ic">⚡</span><span>80% des demandes traitées automatiquement en moins de 2 minutes</span></div>
+        <div class="ba-item"><span class="ic">🎯</span><span>Seuls les cas complexes arrivent à l'équipe</span></div>
+        <div class="ba-item"><span class="ic">🌍</span><span>Disponible en français, anglais, et toutes les langues</span></div>
+        <div class="ba-item"><span class="ic">⭐</span><span>Score satisfaction client : +42%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 8 — CAS CONCRET 4 : ONBOARDING ─── -->
+  <div class="slide theme-dark" data-slide="7">
+    <div class="deco-orb orb2"></div>
+    <div class="eyebrow green">Cas concret #4</div>
+    <h2 class="title">L'onboarding client qui<br><span class="g">se fait tout seul.</span></h2>
+    <div class="scenario">
+      <div class="scenario-name">E-commerce — Fondatrice, équipe de 8 personnes</div>
+      <div class="scenario-story">
+        À chaque nouveau client B2B, il fallait envoyer manuellement 6 emails, créer des accès, configurer leur espace, planifier un appel de démarrage, et relancer si pas de réponse. Chaque onboarding prenait 3 heures à une personne de l'équipe.
+      </div>
+      <div class="scenario-result">
+        <span style="font-size:20px">✨</span>
+        <span class="scenario-result-text">Résultat : onboarding réduit à 12 minutes · 3h récupérées par client · capacité x4 sans embauche</span>
+      </div>
+    </div>
+    <div class="tools" style="margin-top:20px">
+      <span class="tool-pill">📧 Email automatique</span>
+      <span class="tool-pill">📋 Création de compte</span>
+      <span class="tool-pill">📅 Calendrier synchronisé</span>
+      <span class="tool-pill">✅ Checklist de démarrage</span>
+      <span class="tool-pill">🔔 Relances intelligentes</span>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 9 — CE QUE VOUS POUVEZ AUTOMATISER ─── -->
+  <div class="slide theme-gradient" data-slide="8">
+    <div class="deco-orb orb1"></div>
+    <div class="eyebrow white">Ce que nous automatisons</div>
+    <h2 class="title" style="font-size:clamp(24px,3.5vw,42px)">Tout ce qui se répète<br><span class="g">peut être automatisé.</span></h2>
+    <div class="uc-grid">
+      <div class="uc-card">
+        <div class="uc-icon">📊</div>
+        <div class="uc-title">Reporting & Analytics</div>
+        <div class="uc-desc">Rapports automatiques, tableaux de bord en temps réel, alertes sur vos KPIs.</div>
+        <div class="uc-save">⏱ 3–5h économisées/semaine</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-icon">🎯</div>
+        <div class="uc-title">Gestion des leads</div>
+        <div class="uc-desc">Capture, qualification, affectation et relance automatiques de tous vos prospects.</div>
+        <div class="uc-save">⏱ 5–8h économisées/semaine</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-icon">🤝</div>
+        <div class="uc-title">Onboarding client</div>
+        <div class="uc-desc">Emails, accès, documents, rappels — tout se déclenche automatiquement à la signature.</div>
+        <div class="uc-save">⏱ 2–4h économisées/client</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-icon">💬</div>
+        <div class="uc-title">Service client</div>
+        <div class="uc-desc">Tri et réponse automatique aux demandes fréquentes, escalade des cas complexes.</div>
+        <div class="uc-save">⏱ 6–10h économisées/semaine</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-icon">📦</div>
+        <div class="uc-title">Opérations & Logistique</div>
+        <div class="uc-desc">Suivi de commandes, alertes de stock, coordination fournisseurs — sans intervention manuelle.</div>
+        <div class="uc-save">⏱ 4–6h économisées/semaine</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-icon">💰</div>
+        <div class="uc-title">Facturation & Finance</div>
+        <div class="uc-desc">Génération et envoi automatique de factures, relances impayés, rapprochements bancaires.</div>
+        <div class="uc-save">⏱ 2–3h économisées/semaine</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 10 — OBJECTION : C'EST COMPLIQUÉ ? ─── -->
+  <div class="slide theme-dark" data-slide="9">
+    <div class="deco-orb orb3"></div>
+    <div class="big-emoji" style="font-size:60px">🤔</div>
+    <h2 class="title">« C'est sûrement très<br><span class="g">compliqué à mettre en place ? »</span></h2>
+    <div class="quote-box">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">Non. Vous n'avez pas besoin de comprendre comment ça fonctionne techniquement. Vous avez juste besoin de nous expliquer ce que vous faites à la main — on s'occupe du reste.</div>
+      <div class="quote-attr">— Notre promesse client</div>
+    </div>
+    <div class="process" style="margin-top:36px">
+      <div class="proc-step">
+        <div class="proc-num">1</div>
+        <div class="proc-title">Vous nous expliquez</div>
+        <div class="proc-desc">On cartographie vos process en 1h</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">2</div>
+        <div class="proc-title">On construit</div>
+        <div class="proc-desc">2 à 4 semaines, intégré à vos outils</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">3</div>
+        <div class="proc-title">Ça tourne</div>
+        <div class="proc-desc">24h/24 · 7j/7 · sans vous</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 11 — OBJECTION : ÇA COÛTE CHER ? ─── -->
+  <div class="slide theme-gradient" data-slide="10">
+    <div class="deco-orb orb1"></div>
+    <div class="big-emoji" style="font-size:60px">💶</div>
+    <h2 class="title">« Et ça coûte<br><span class="g">combien ? »</span></h2>
+    <p class="sub" style="margin-bottom:28px">Voici comment nos clients calculent le retour sur investissement.</p>
+    <div class="ba-wrap" style="max-width:700px">
+      <div class="ba-card before" style="text-align:center">
+        <div class="ba-label red" style="text-align:center;margin-bottom:16px">💸 Coût sans IA</div>
+        <div style="font-size:36px;font-weight:900;color:#f87171">~800 €/mois</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:6px">14h/semaine × 14 €/h<br>× 4 semaines</div>
+      </div>
+      <div class="ba-arrow">vs</div>
+      <div class="ba-card after" style="text-align:center">
+        <div class="ba-label green" style="text-align:center;margin-bottom:16px">🚀 Avec Aimythe</div>
+        <div style="font-size:36px;font-weight:900;color:#34d399">1 500 €/mois</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:6px">Retainer complet<br>système qui évolue</div>
+      </div>
+    </div>
+    <div class="scenario-result" style="max-width:700px">
+      <span style="font-size:20px">🧮</span>
+      <span class="scenario-result-text">Pour 700 €/mois de plus, vous récupérez 14h/semaine et éliminez les erreurs humaines — indéfiniment.</span>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 12 — POURQUOI MAINTENANT ─── -->
+  <div class="slide theme-dark" data-slide="11">
+    <div class="deco-orb orb2"></div>
+    <div class="eyebrow amber">⚡ L'urgence</div>
+    <h2 class="title">Vos concurrents<br><span class="g">automatisent déjà.</span></h2>
+    <ul class="hl-list">
+      <li><span class="icon">📈</span><span><strong style="color:#fff">65% des grandes entreprises</strong> ont déployé l'IA dans leurs opérations en 2024. Les PME qui attendent perdent du terrain chaque mois. <em style="color:rgba(255,255,255,0.4)">(Gartner, 2024)</em></span></li>
+      <li><span class="icon">⏰</span><span>Le coût d'attente est réel : chaque semaine sans automatisation, c'est <strong style="color:#fbbf24">14h de productivité</strong> que vos concurrents récupèrent et que vous perdez.</span></li>
+      <li><span class="icon">🎯</span><span>Les entreprises qui automatisent <strong style="color:#fff">maintenant</strong> construisent une avance qui sera très difficile à rattraper dans 18 mois.</span></li>
+      <li><span class="icon">💡</span><span>L'IA d'aujourd'hui est <strong style="color:#fff">accessible aux PME</strong> — ce n'était pas le cas il y a 3 ans. C'est une fenêtre d'opportunité.</span></li>
+    </ul>
+  </div>
+
+  <!-- ─── SLIDE 13 — NOTRE OFFRE ─── -->
+  <div class="slide theme-gradient" data-slide="12">
+    <div class="deco-orb orb3"></div>
+    <div class="eyebrow white">◈ Notre offre</div>
+    <h2 class="title">Commencez sans risque.<br><span class="g">Voyez les résultats d'abord.</span></h2>
+    <div class="offer-grid">
+      <div class="offer-card">
+        <div class="offer-price">49 $</div>
+        <div class="offer-name">Appel Découverte</div>
+        <div class="offer-desc">15 minutes pour identifier votre plus grand frein opérationnel et savoir exactement ce que l'IA peut faire pour vous. Déduit de tout engagement.</div>
+      </div>
+      <div class="offer-card highlight">
+        <div class="offer-price">500 $</div>
+        <div class="offer-name">Audit Automatisation</div>
+        <div class="offer-desc">Cartographie complète de vos process, top 3 opportunités, plan de construction avec ROI estimé. Livré en 5 jours. Les 49 $ sont déduits.</div>
+      </div>
+      <div class="offer-card">
+        <div class="offer-price">1 500 $</div>
+        <div class="offer-name">/mois — Partenaire</div>
+        <div class="offer-desc">Nous construisons, gérons et faisons évoluer votre système d'automatisation chaque mois. Sans engagement long terme.</div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">Tous nos prix sont en USD · facturation internationale disponible</p>
+  </div>
+
+  <!-- ─── SLIDE 14 — CTA FINAL ─── -->
+  <div class="slide theme-dark" data-slide="13">
+    <div class="deco-orb orb1"></div>
+    <div class="deco-orb orb2"></div>
+    <div class="eyebrow">Prochaine étape</div>
+    <div class="cta-big">Votre prochain<br><span class="g">collaborateur ne dort jamais.</span></div>
+    <p class="sub">Réservez un appel découverte de 15 minutes. On vous dit honnêtement si l'automatisation peut vous aider — et exactement ce que ça donnerait pour votre activité.</p>
+    <a href="https://cal.com/floyd-aimythe/discovery" class="cta-btn">
+      Réserver mon appel découverte — 49 $ →
+    </a>
+    <div class="cta-sub">49 $ déduits de tout engagement · Sans engagement · Réponse honnête garantie</div>
+    <div style="margin-top:32px;font-size:14px;color:rgba(255,255,255,0.25)">aimythe.com · hello@aimythe.com</div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-btn" id="prev" onclick="go(-1)">←</button>
+  <div class="dot-nav" id="dots"></div>
+  <div id="progress">1 / 14</div>
+  <button class="nav-btn" id="next" onclick="go(1)">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const progressEl = document.getElementById('progress');
+  let cur = 0;
+  const total = slides.length;
+
+  // Build dots
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' on':'');
+    d.onclick=()=>goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n){
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    setTimeout(()=>slides[cur].classList.remove('exit'),500);
+    cur=((n%total)+total)%total;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+    progressEl.textContent=(cur+1)+' / '+total;
+  }
+
+  function go(dir){ goTo(cur+dir); }
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+  });
+
+  // Touch swipe
+  let tx=0;
+  document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>50) go(dx<0?1:-1);
+  });
+</script>
+</body>
+</html>
